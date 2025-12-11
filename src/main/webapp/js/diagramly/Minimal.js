@@ -457,7 +457,18 @@ EditorUi.initMinimalTheme = function()
             
 			if (img != null)
 			{
-				btn.style.backgroundImage = 'url(' + img + ')';
+				//eryan 定制，实现新图标的机制，如果图标配置以class:开头，则表示使用className
+				if ( img.substring(0, 6) == 'class:') {
+					var classes = img.substring(6).split(' ');
+					for (var i = 0; i < classes.length; i++) {
+						if (classes[i].trim()) {
+							btn.classList.add(classes[i].trim());
+						}
+					}
+				}
+                else{
+                 btn.style.backgroundImage = 'url(' + img + ')';
+				}
 			}
 			else
 			{

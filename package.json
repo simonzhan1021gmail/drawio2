@@ -1,0 +1,12 @@
+{
+  "name": "drawio",
+  "version": "1.0.0",
+  "description": "draw.io - free online diagram software",
+  "scripts": {
+    "serve": "http-server ./src/main/webapp -p 8080 -c-1 --cors",
+    "start": "http-server ./src/main/webapp -p 8080 -c-1 --cors"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}

@@ -3255,11 +3255,20 @@ App.prototype.start = function()
 				this.handleError(e, mxResources.get('errorLoadingFile'));
 			}
 		}
+		//eryan 定制，打开指定的文件
+		else if (urlParams['isNew'] == '1'){ 
+				//创建新的draw.io文件
+				this.createFile("新建绘图",
+					null, null, null, null, null, null, true);
+		}
 		// Redirects old url URL parameter to new #U format
 		else if ((window.location.hash == null || window.location.hash.length <= 1) && urlParams['url'] != null)
 		{
+			//eryan 定制 加载draw.io文件的时候，指定服务器路径
+				urlParams['url'] = window.FilePath + urlParams['url'];
 			this.loadFile('U' + urlParams['url'], true);
 		}
+		
 		else if (this.getCurrentFile() == null)
 		{
 			var done = mxUtils.bind(this, function()

@@ -6,16 +6,15 @@
  * is used for development mode where the JS is in separate
  * files and the mxClient.js loads other files.
  */
-if (!mxIsElectron)
-{
-	(function()
-	{
+if (!mxIsElectron) {
+	(function () {
 		var hashes = 'default-src \'self\'; ' +
 			'script-src %script-src% \'self\' https://viewer.diagrams.net https://apis.google.com https://*.pusher.com; ';
 
 		var directives = 'connect-src %connect-src% \'self\' https://*.draw.io https://*.diagrams.net ' +
 			'https://*.googleapis.com wss://app.diagrams.net wss://*.pusher.com https://*.pusher.com ' +
 			'https://api.github.com https://raw.githubusercontent.com https://gitlab.com ' +
+			window.FilePath + ' ' + //eryan 定制 允许跨域访问服务器地址
 			'https://graph.microsoft.com https://my.microsoftpersonalcontent.com https://*.sharepoint.com https://*.sharepoint.de  ' +
 			'https://*.1drv.com https://api.onedrive.com https://dl.dropboxusercontent.com https://api.openai.com ' +
 			'https://*.google.com https://fonts.gstatic.com https://fonts.googleapis.com; ' +
@@ -27,7 +26,7 @@ if (!mxIsElectron)
 			'base-uri \'none\'; ' +
 			'child-src \'self\'; ' +
 			'object-src \'none\';';
-			
+
 		var csp = hashes + directives;
 		var devCsp = csp.
 			// Adds script tags and loads shapes with eval
@@ -38,17 +37,17 @@ if (!mxIsElectron)
 			replace(/%style-src%/g, '').
 			replace(/%frame-src%/g, '').
 			replace(/  /g, ' ');
-
+		
 		mxmeta(null, devCsp, 'Content-Security-Policy');
 
-		if (urlParams['print-csp'] == '1')
-		{
+		if (urlParams['print-csp'] == '1') 
+        {
 			console.log('Content-Security-Policy');
 			var app_diagrams_net = csp.replace(/%script-src%/g, 'https://www.dropbox.com https://api.trello.com').
 				replace(/%connect-src%/g, 'https://*.dropboxapi.com https://api.trello.com').
 				replace(/%frame-src%/g, '').
-					replace(/%style-src%/g, '').
-					replace(/  /g, ' ') + ' frame-ancestors \'self\' https://teams.microsoft.com https://*.cloud.microsoft;';
+				replace(/%style-src%/g, '').
+				replace(/  /g, ' ') + ' frame-ancestors \'self\' https://teams.microsoft.com https://*.cloud.microsoft;';
 			console.log('app.diagrams.net:', app_diagrams_net);
 
 			var viewer_diagrams_net = hashes.replace(/%script-src%/g, 'https://www.dropbox.com https://api.trello.com https://app.diagrams.net') +
@@ -70,27 +69,27 @@ if (!mxIsElectron)
 				.replace(/  /g, ' ') +
 				" frame-ancestors 'self' https://teams.microsoft.com https://*.cloud.microsoft;" +
 				" worker-src https://app.diagrams.net/service-worker.js;";
-				
+
 			console.log('teams.diagrams.net:', teams_diagrams_net);
 
 			var ac_draw_io = csp.replace(/%script-src%/g, 'https://aui-cdn.atlassian.com https://connect-cdn.atl-paas.net').
-					replace(/%frame-src%/g, 'https://www.lucidchart.com https://app.lucidchart.com https://lucid.app blob:').
-					replace(/%style-src%/g, 'https://aui-cdn.atlassian.com https://*.atlassian.net https://connect-cdn.atl-paas.net').
-					replace(/%connect-src%/g, '').
-					replace(/  /g, ' ') +
-					'worker-src https://ac.draw.io/service-worker.js;';
+				replace(/%frame-src%/g, 'https://www.lucidchart.com https://app.lucidchart.com https://lucid.app blob:').
+				replace(/%style-src%/g, 'https://aui-cdn.atlassian.com https://*.atlassian.net https://connect-cdn.atl-paas.net').
+				replace(/%connect-src%/g, '').
+				replace(/  /g, ' ') +
+				'worker-src https://ac.draw.io/service-worker.js;';
 			console.log('ac.draw.io:', ac_draw_io);
 
 			var aj_draw_io = csp.replace(/%script-src%/g, 'https://aui-cdn.atlassian.com https://connect-cdn.atl-paas.net').
-					replace(/%frame-src%/g, 'blob:').
-					replace(/%style-src%/g, 'https://aui-cdn.atlassian.com https://*.atlassian.net https://connect-cdn.atl-paas.net').
-					replace(/%connect-src%/g, 'https://api.atlassian.com https://api.media.atlassian.com').
-					replace(/  /g, ' ') +
-					'worker-src https://aj.draw.io/service-worker.js;';
+				replace(/%frame-src%/g, 'blob:').
+				replace(/%style-src%/g, 'https://aui-cdn.atlassian.com https://*.atlassian.net https://connect-cdn.atl-paas.net').
+				replace(/%connect-src%/g, 'https://api.atlassian.com https://api.media.atlassian.com').
+				replace(/  /g, ' ') +
+				'worker-src https://aj.draw.io/service-worker.js;';
 			console.log('aj.draw.io:', aj_draw_io);
 
 			console.log('import.diagrams.net:', 'default-src \'self\'; worker-src blob:; img-src \'self\' blob: data: https://www.lucidchart.com ' +
-					'https://app.lucidchart.com https://lucid.app; style-src \'self\' \'unsafe-inline\'; frame-src https://www.lucidchart.com https://app.lucidchart.com https://lucid.app;');
+				'https://app.lucidchart.com https://lucid.app; style-src \'self\' \'unsafe-inline\'; frame-src https://www.lucidchart.com https://app.lucidchart.com https://lucid.app;');
 			console.log('Development:', devCsp);
 
 			console.log('Remember to add index.html new hashes to Desktop app (electron.js). In desktop, only newest hashes are needed.');
@@ -250,7 +249,7 @@ if (!window.DRAWIO_PUBLIC_BUILD)
 	mxscript(drawDevUrl + 'js/diagramly/vsdx/VsdxExport.js');
 }
 
-mxscript(drawDevUrl + 'js/mermaid/mermaid2drawio.js');	
+mxscript(drawDevUrl + 'js/mermaid/mermaid2drawio.js');
 
 // Vsdx/vssx support
 mxscript(drawDevUrl + 'js/diagramly/vsdx/mxVsdxCanvas2D.js');

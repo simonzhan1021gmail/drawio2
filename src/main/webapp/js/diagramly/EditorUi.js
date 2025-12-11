@@ -13296,6 +13296,19 @@
 			elt.style.backgroundImage = 'url(' + icon + ')';
 		}
 
+		//eryan 定制，实现新图标的机制，如果图标配置以class:开头，则表示使用className
+		if (icon != null && icon.substring(0, 6) == 'class:')
+		{
+			var classes = icon.substring(6).split(' ');
+			for (var i = 0; i < classes.length; i++)
+			{
+				if (classes[i].trim())
+				{
+					elt.classList.add(classes[i].trim());
+				}
+			}
+		}
+
 		if (title != null)
 		{
 			elt.setAttribute('title', title);

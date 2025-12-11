@@ -523,7 +523,7 @@ html body.geEditor .gePrimaryBtn:hover:not([disabled]) {
 
 .geDarkMode .geButtonGroup {
 	border-style: solid;
-    border-width: 1px;
+	border-width: 1px;
 }
 
 .geButtonGroup .geButton {
@@ -584,15 +584,15 @@ html body.geSimple div.geToolbarContainer a.geColorBtn {
 
 .geToolbarContainer.geDialogToolbar {
 	position: absolute;
-    bottom: 0px;
-    left: 0px;
-    right: 0px;
-    height: 32px;
-    overflow: hidden;
-    padding: 3px 4px 4px;
-    border-width: 1px 0px 0px;
-    border-style: solid;
-    white-space: nowrap;
+	bottom: 0px;
+	left: 0px;
+	right: 0px;
+	height: 32px;
+	overflow: hidden;
+	padding: 3px 4px 4px;
+	border-width: 1px 0px 0px;
+	border-style: solid;
+	white-space: nowrap;
 }
 
 .geSimpletable.mxWindow td.mxWindowPane button.geColorBtn {
@@ -759,8 +759,8 @@ div.geTemplatePreview {
 }
 
 .geTemplate .geGenerateDiagramForm .geButton.geRoundButton {
-    margin: -6px -6px 0 0;
-    padding: 2px !important;
+	margin: -6px -6px 0 0;
+	padding: 2px !important;
 }
 
 .geDarkMode .geTemplate {
@@ -1090,16 +1090,16 @@ div.geFormatContainer {
 .geEmbed.geAtlas>.geMenubarContainer>.geStatusDiv,
 .geClassic.geEmbed.geCompactMode>.geMenubarContainer>.geStatusDiv {
 	position: fixed;
-    right: 16px;
-    top: 6px;
+	right: 16px;
+	top: 6px;
 }
 
 .geClassic.geEmbed.geCompactMode>.geMenubarContainer>.geStatusDiv {
-    top: 6px;
+	top: 6px;
 }
 
 .geEmbed.geAtlas>.geMenubarContainer>.geStatusDiv {
-    top: 12px;
+	top: 12px;
 }
 
 html body div.geBtn.geSmallBanner {
@@ -1113,18 +1113,18 @@ html body div.geBtn.geSmallBanner {
 
 .geSpinnerStatus {
 	position: absolute;
-    white-space: nowrap;
-    border-radius: 6px;
+	white-space: nowrap;
+	border-radius: 6px;
 	color: #ffffff;
 	background: #4B4243;
 	transform: translate(-50%, -50%);
-    box-shadow: light-dark(#dddddd, transparent) 2px 2px 3px 0px;
+	box-shadow: light-dark(#dddddd, transparent) 2px 2px 3px 0px;
 	padding: 6px 10px;
 	font-size: 9pt;
-    z-index: 2000000000;
-    max-width: 60%;
-    overflow: hidden;
-    text-overflow: ellipsis;
+	z-index: 2000000000;
+	max-width: 60%;
+	overflow: hidden;
+	text-overflow: ellipsis;
 	cursor: default;
 }
 
@@ -1345,15 +1345,15 @@ td.mxPopupMenuIcon .geStyleMenuItem>div {
 }
 
 .geButton.geZoomInput {
-    cursor: initial;
-    font-size: 14px;
-    border-style: none;
-    border-color: #000000;
-    padding: 0px 16px 0px 2px;
-    background-position: right 2px center;
-    text-align: center;
-    height: 28px;
-    width: 62px;
+	cursor: initial;
+	font-size: 14px;
+	border-style: none;
+	border-color: #000000;
+	padding: 0px 16px 0px 2px;
+	background-position: right 2px center;
+	text-align: center;
+	height: 28px;
+	width: 62px;
 }
 
 .geClassic .geZoomInput {
@@ -1595,7 +1595,7 @@ a.geStatus>div {
 }
 
 .mxPopupMenuItem:empty:has(+ .mxPopupMenuItem:empty),
-.mxPopupMenuItem:empty + .mxPopupMenuItem:empty {
+.mxPopupMenuItem:empty+.mxPopupMenuItem:empty {
 	display: none;
 }
 
@@ -2106,9 +2106,9 @@ table.geProperties tr th {
 
 .gePropValue {
 	width: 100%;
-    overflow: hidden;
+	overflow: hidden;
 	white-space: nowrap;
-    text-overflow: ellipsis;
+	text-overflow: ellipsis;
 }
 
 .gePropHeader,
@@ -2885,4 +2885,10 @@ table.geProperties tr th {
 [draggable="true"] {
 	transform: translate(0, 0);
 	z-index: 0;
+}
+
+.geButton.fontawesome-icon_ey {
+	display: flex;
+	font-size: 16px;
+
 }

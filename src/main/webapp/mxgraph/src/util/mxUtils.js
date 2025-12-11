@@ -2349,7 +2349,19 @@ var mxUtils =
 		{
 			if (typeof color === 'string')
 			{
+				
 				var ld = mxUtils.parseLightDarkColor(color, defaultDarkColor, useLightColor);
+
+				//eryan定制,在深色模式下，对不需要增加颜色差异的颜色，使用浅色值
+				if(window.DRAWIO_CONFIG?.eryan_customConfig?.excludeColorInDark){
+					for (var i = 0; i < window.DRAWIO_CONFIG.eryan_customConfig.excludeColorInDark.length; i++) {
+						if (window.DRAWIO_CONFIG.eryan_customConfig.excludeColorInDark[i].toLowerCase()== ld.light.toLowerCase()) {
+							ld.dark = ld.light;
+							break;
+						}
+					}
+				}
+				
 				result.light = mxUtils.addAlphaToColor(ld.light, alpha);
 				result.dark = mxUtils.addAlphaToColor(ld.dark, alpha);
 
@@ -2359,6 +2371,7 @@ var mxUtils =
 				}
 				else
 				{
+					
 					result.cssText = (result.light == result.dark) ? result.light :
 						'light-dark(' + result.light + ', ' + result.dark + ')';
 				}

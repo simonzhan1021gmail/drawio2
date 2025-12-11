@@ -2811,7 +2811,7 @@
 	/**
 	 * Specifies the app name. Default is document.title.
 	 */
-	Editor.prototype.appName = 'draw.io';
+	Editor.prototype.appName = 'ErYan'; //eryan定制，修改标题
 		
 	/**
 	 * Known file types.
@@ -3321,6 +3321,10 @@
 	 */
 	Editor.prototype.isCorsEnabledForUrl = function(url)
 	{
+		//eryan 定制，让服务端的地址允许跨域
+         if(url.toLowerCase().startsWith(window.FilePath.toLowerCase()))
+			return true;
+
 		// Disables proxy for desktop and chrome app as it is served locally
 		if (mxClient.IS_CHROMEAPP || EditorUi.isElectronApp)
 		{
