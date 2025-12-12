@@ -33,7 +33,7 @@ window.DRAWIO_CONFIG = { // 更多配置请参考网址 https://www.drawio.com/d
     "defaultLibraries": "myImageUnit",
     // 节点默认样式（矩形、圆形、图标等），在浅色模式下生效
     "defaultVertexStyle": {
-        "fillColor": "#FF0000",      // 填充红色
+        "fillColor": "transparent",      // 填充透明色
         "strokeColor": "#FF0000",    // 边框红色
         "fontColor": "#FF0000",      // 文本红色
         "gradientColor": "none"      // 避免渐变颜色覆盖红色

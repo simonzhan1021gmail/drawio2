@@ -5045,7 +5045,19 @@
 			((xml != null) ? '.drawio' : '') + '.' + ext;
    	    var data = this.createImageDataUri(canvas, xml, format, dpi);
 
-   	    this.saveData(filename, ext, data.substring(data.lastIndexOf(',') + 1), 'image/' + format, true);
+		//eryan 定制，导出图元信息,用于缩略图
+		if (window["eryan_startWatchExportPng"]) {
+			const pngInfo = {
+				width: canvas.width,
+				height: canvas.height,
+				data: data,
+			}
+			window["eryan_pngFinishExport"] && window["eryan_pngFinishExport"](pngInfo);
+		}
+		else {	
+   	        this.saveData(filename, ext, data.substring(data.lastIndexOf(',') + 1), 'image/' + format, true);
+		}
+
 	};
 	
 	/**

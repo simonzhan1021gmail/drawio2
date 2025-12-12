@@ -1951,10 +1951,10 @@ DrawioFile.prototype.addUnsavedStatus = function(err)
 
 				var status = mxUtils.htmlEntities(mxResources.get('unsavedChangesClickHereToSave')) +
 					((msg != null && msg != '') ? ' (' + mxUtils.htmlEntities(msg) + ')' : '');
-				var action = 'data-action="' + ((this.ui.mode == null || !this.isEditable()) ?
-					'saveAs' : 'save') + '"';
+				var action = 'data-action="save"';
+			var saveIcon = `<i style="font-size:16px;" class="${Editor.saveIcon.replace("class:", "")}"></i>`;
 				this.ui.editor.setStatus('<div ' + action + ' title="' +
-					status + '" class="geStatusAlert">' + status + '</div>');
+					status + '">' + saveIcon + '</div>');
 			}));
 			
 			if (EditorUi.enableDrafts && (this.getMode() == null || EditorUi.isElectronApp))

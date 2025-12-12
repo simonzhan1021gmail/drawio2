@@ -3118,7 +3118,7 @@ EditorUi.prototype.initCanvas = function()
 				this.actions.get('zoomOut').funct();
 				mxEvent.consume(evt);
 			}), Editor.zoomOutImage, mxResources.get('zoomOut') + ' (Alt+Mousewheel)');
-			
+		
 			addButton(mxUtils.bind(this, function(evt)
 			{
 				this.actions.get('zoomIn').funct();
@@ -5128,6 +5128,7 @@ EditorUi.prototype.createStatusContainer = function()
 		
 		if (elt.nodeName != 'A')
 		{
+			debugger
 			var name = elt.getAttribute('data-action');
 
 			// Make generic

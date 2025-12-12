@@ -4698,188 +4698,285 @@ App.prototype.saveLibrary = function(name, images, file, mode, noSpin, noReload,
 /**
  * Adds the label menu items to the given menu and parent.
  */
-App.prototype.saveFile = function(forceDialog, success)
-{
-	var file = this.getCurrentFile();
-	var prev = this.mode;
+// App.prototype.saveFile = function(forceDialog, success)
+// {
+// 	var file = this.getCurrentFile();
+// 	var prev = this.mode;
 	
-	if (file != null)
-	{
-		// FIXME: Invoke for local files
-		var done = mxUtils.bind(this, function()
-		{
-			if (EditorUi.enableDrafts)
-			{
-				file.removeDraft();
-			}
+// 	if (file != null)
+// 	{
+// 		// FIXME: Invoke for local files
+// 		var done = mxUtils.bind(this, function()
+// 		{
+// 			if (EditorUi.enableDrafts)
+// 			{
+// 				file.removeDraft();
+// 			}
 			
-			if (this.getCurrentFile() != file && !file.isModified())
-			{
-				// Workaround for possible status update while save as dialog is showing
-				// is to show no saved status for device files
-				if (file.getMode() != App.MODE_DEVICE)
-				{
-					this.updateStatus(mxUtils.bind(this, function()
-					{
-						this.editor.setStatus(mxUtils.htmlEntities(
-							mxResources.get('allChangesSaved')));
-					}));
-				}
-				else
-				{
-					this.clearStatus();
-				}
-			}
+// 			if (this.getCurrentFile() != file && !file.isModified())
+// 			{
+// 				// Workaround for possible status update while save as dialog is showing
+// 				// is to show no saved status for device files
+// 				if (file.getMode() != App.MODE_DEVICE)
+// 				{
+// 					this.updateStatus(mxUtils.bind(this, function()
+// 					{
+// 						this.editor.setStatus(mxUtils.htmlEntities(
+// 							mxResources.get('allChangesSaved')));
+// 					}));
+// 				}
+// 				else
+// 				{
+// 					this.clearStatus();
+// 				}
+// 			}
 			
-			if (success != null)
-			{
-				success();
-			}
-		});
+// 			if (success != null)
+// 			{
+// 				success();
+// 			}
+// 		});
 		
-		if (!forceDialog && file.getTitle() != null && file.invalidFileHandle == null && this.mode != null)
-		{
-			this.save(file.getTitle(), done);
-		}
-		else if (file != null && file.constructor == LocalFile && file.fileHandle != null)
-		{
-			this.showSaveFilePicker(mxUtils.bind(this, function(fileHandle, desc)
-			{
-				file.invalidFileHandle = null;
-				file.fileHandle = fileHandle;
-				file.title = desc.name;
-				file.desc = desc;
-				file.editable = null;
-				this.save(desc.name, done);
-			}), null, this.createFileSystemOptions(file.getTitle()));
-		}
-		else
-		{
-			var filename = (file.getTitle() != null) ? file.getTitle() : this.defaultFilename;
+// 		if (!forceDialog && file.getTitle() != null && file.invalidFileHandle == null && this.mode != null)
+// 		{
+// 			this.save(file.getTitle(), done);
+// 		}
+// 		else if (file != null && file.constructor == LocalFile && file.fileHandle != null)
+// 		{
+// 			this.showSaveFilePicker(mxUtils.bind(this, function(fileHandle, desc)
+// 			{
+// 				file.invalidFileHandle = null;
+// 				file.fileHandle = fileHandle;
+// 				file.title = desc.name;
+// 				file.desc = desc;
+// 				file.editable = null;
+// 				this.save(desc.name, done);
+// 			}), null, this.createFileSystemOptions(file.getTitle()));
+// 		}
+// 		else
+// 		{
+// 			var filename = (file.getTitle() != null) ? file.getTitle() : this.defaultFilename;
 
-			var saveFunction = mxUtils.bind(this, function(name, mode, input, folderId)
-			{
-				if (name != null && name.length > 0)
-				{
-					// Handles special case where PDF export is detected
-					if (/(\.pdf)$/i.test(name))
-					{
-						this.confirm(mxResources.get('didYouMeanToExportToPdf'), mxUtils.bind(this, function()
-						{
-							this.hideDialog();
-							this.actions.get('exportPdf').funct();
-						}), mxUtils.bind(this, function()
-						{
-							input.value = name.split('.').slice(0, -1).join('.');
-							input.focus();
+// 			var saveFunction = mxUtils.bind(this, function(name, mode, input, folderId)
+// 			{
+// 				if (name != null && name.length > 0)
+// 				{
+// 					// Handles special case where PDF export is detected
+// 					if (/(\.pdf)$/i.test(name))
+// 					{
+// 						this.confirm(mxResources.get('didYouMeanToExportToPdf'), mxUtils.bind(this, function()
+// 						{
+// 							this.hideDialog();
+// 							this.actions.get('exportPdf').funct();
+// 						}), mxUtils.bind(this, function()
+// 						{
+// 							input.value = name.split('.').slice(0, -1).join('.');
+// 							input.focus();
 							
-							if (mxClient.IS_GC || mxClient.IS_FF || document.documentMode >= 5)
-							{
-								input.select();
-							}
-							else
-							{
-								document.execCommand('selectAll', false, null);
-							}
-						}), mxResources.get('yes'), mxResources.get('no'));
-					}
-					else
-					{
-						this.hideDialog();
+// 							if (mxClient.IS_GC || mxClient.IS_FF || document.documentMode >= 5)
+// 							{
+// 								input.select();
+// 							}
+// 							else
+// 							{
+// 								document.execCommand('selectAll', false, null);
+// 							}
+// 						}), mxResources.get('yes'), mxResources.get('no'));
+// 					}
+// 					else
+// 					{
+// 						this.hideDialog();
 						
-						if (prev == null && mode == App.MODE_DEVICE)
-						{
-							if (file != null && EditorUi.nativeFileSupport)
-							{
-								this.showSaveFilePicker(mxUtils.bind(this, function(fileHandle, desc)
-								{
-									file.fileHandle = fileHandle;
-									file.mode = App.MODE_DEVICE;
-									file.title = desc.name;
-									file.desc = desc;
+// 						if (prev == null && mode == App.MODE_DEVICE)
+// 						{
+// 							if (file != null && EditorUi.nativeFileSupport)
+// 							{
+// 								this.showSaveFilePicker(mxUtils.bind(this, function(fileHandle, desc)
+// 								{
+// 									file.fileHandle = fileHandle;
+// 									file.mode = App.MODE_DEVICE;
+// 									file.title = desc.name;
+// 									file.desc = desc;
 
-									this.setMode(App.MODE_DEVICE);
-									this.save(desc.name, done);
-								}), mxUtils.bind(this, function(e)
-								{
-									if (e.name != 'AbortError')
-									{
-										this.handleError(e);
-									}
-								}), this.createFileSystemOptions(name));
-							}
-							else
-							{
-								this.setMode(App.MODE_DEVICE);
-								this.save(name, done);
-							}
-						}
-						else if (mode == 'download')
-						{
-							var tmp = new LocalFile(this, null, name);
-							tmp.save();
-						}
-						else if (mode == '_blank')
-						{
-							window.openFile = new OpenFile(function()
-							{
-								window.openFile = null;
-							});
+// 									this.setMode(App.MODE_DEVICE);
+// 									this.save(desc.name, done);
+// 								}), mxUtils.bind(this, function(e)
+// 								{
+// 									if (e.name != 'AbortError')
+// 									{
+// 										this.handleError(e);
+// 									}
+// 								}), this.createFileSystemOptions(name));
+// 							}
+// 							else
+// 							{
+// 								this.setMode(App.MODE_DEVICE);
+// 								this.save(name, done);
+// 							}
+// 						}
+// 						else if (mode == 'download')
+// 						{
+// 							var tmp = new LocalFile(this, null, name);
+// 							tmp.save();
+// 						}
+// 						else if (mode == '_blank')
+// 						{
+// 							window.openFile = new OpenFile(function()
+// 							{
+// 								window.openFile = null;
+// 							});
 							
-							// Do not use a filename to use undefined mode
-							window.openFile.setData(this.getFileData(true));
-							this.openLink(this.getUrl(window.location.pathname), null, true);
-						}
-						else if (prev != mode)
-						{
-							var createFile = mxUtils.bind(this, function(folderId)
-							{
-								var graph = this.editor.graph;
-								var selection = graph.getSelectionCells();
-								var viewState = graph.getViewState();
-								var page = this.currentPage;
+// 							// Do not use a filename to use undefined mode
+// 							window.openFile.setData(this.getFileData(true));
+// 							this.openLink(this.getUrl(window.location.pathname), null, true);
+// 						}
+// 						else if (prev != mode)
+// 						{
+// 							var createFile = mxUtils.bind(this, function(folderId)
+// 							{
+// 								var graph = this.editor.graph;
+// 								var selection = graph.getSelectionCells();
+// 								var viewState = graph.getViewState();
+// 								var page = this.currentPage;
 								
-								this.createFile(name, this.getFileData(/(\.xml)$/i.test(name) ||
-									name.indexOf('.') < 0 || /(\.drawio)$/i.test(name),
-									/(\.svg)$/i.test(name), /(\.html)$/i.test(name)), null,
-									mode, done, this.mode == null, folderId, null, null,
-									mxUtils.bind(this, function()
-									{
-										this.restoreViewState(page, viewState, selection);
-									}));
-							});
+// 								this.createFile(name, this.getFileData(/(\.xml)$/i.test(name) ||
+// 									name.indexOf('.') < 0 || /(\.drawio)$/i.test(name),
+// 									/(\.svg)$/i.test(name), /(\.html)$/i.test(name)), null,
+// 									mode, done, this.mode == null, folderId, null, null,
+// 									mxUtils.bind(this, function()
+// 									{
+// 										this.restoreViewState(page, viewState, selection);
+// 									}));
+// 							});
 
-							if (folderId != null)
-							{
-								createFile(folderId);
-							}
-							else
-							{
-								this.pickFolder(mode, createFile);
-							}
-						}
-						else if (mode != null)
-						{
-							this.save(name, done);
-						}
-					}
-				}
-			});
+// 							if (folderId != null)
+// 							{
+// 								createFile(folderId);
+// 							}
+// 							else
+// 							{
+// 								this.pickFolder(mode, createFile);
+// 							}
+// 						}
+// 						else if (mode != null)
+// 						{
+// 							this.save(name, done);
+// 						}
+// 					}
+// 				}
+// 			});
 			
-			var allowTab = !mxClient.IS_IOS || !navigator.standalone;
+// 			var allowTab = !mxClient.IS_IOS || !navigator.standalone;
 
-			var dlg = new SaveDialog(this, filename, mxUtils.bind(this, function(input, mode, folderId)
-			{
-				saveFunction(input.value, mode, input, folderId);
-				this.hideDialog();
-			}), (allowTab) ? null : ['_blank']);
+// 			var dlg = new SaveDialog(this, filename, mxUtils.bind(this, function(input, mode, folderId)
+// 			{
+// 				saveFunction(input.value, mode, input, folderId);
+// 				this.hideDialog();
+// 			}), (allowTab) ? null : ['_blank']);
 
-			this.showDialog(dlg.container, 420, 150, true, false, mxUtils.bind(this, function()
-			{
-				this.hideDialog();
-			}));
-			dlg.init();
+// 			this.showDialog(dlg.container, 420, 150, true, false, mxUtils.bind(this, function()
+// 			{
+// 				this.hideDialog();
+// 			}));
+// 			dlg.init();
+// 		}
+// 	}
+// };
+
+
+//eryan 定制，去掉原来保存文件的逻辑，新增加保存文件的逻辑
+App.prototype.saveFile = function (forceDialog, success) {
+
+	const isImageUnit = urlParams['isImageUnit'];
+	if (isImageUnit == "1") {
+		this.exportImage(1, true,
+			true, false, true, "0",
+			true, false, 'png', false, null, "light", "diagram");
+		window["eryan_startWatchExportPng"] = true;
+		window["eryan_pngFinishExport"] = (pngInfo) => {
+			window["eryan_startWatchExportPng"] = false;
+			const saveUrl = window.urls.fileApp + "/saveimageUnit";
+			pngInfo.name = urlParams['name'];
+
+			const drawoFile = this.getFileData();
+			pngInfo.fileData = drawoFile;
+
+			if (urlParams['isNew'] == '1') {
+				if (!window["eryan_tyId"]) {
+					window["eryan_tyId"] = Editor.guid();
+				}
+				pngInfo.tyId = window["eryan_tyId"];
+			}
+			else {
+				pngInfo.tyId = urlParams['tyId'];
+			}
+
+			mxUtils.postWithJson(saveUrl, pngInfo,
+				mxUtils.bind(this, function (result) {
+					if (result.success) {
+						hasSave = true;
+						this.alert("保存成功");
+						return;
+					}
+
+					this.alert("保存失败");
+				}),
+				function () {
+					this.alert("保存失败");
+				});
 		}
+	}
+	else {
+		        const scale = '100%';  //导出的缩放比例
+				const transparentBackground=true; //导出背景是否透明
+				const ignoreSelection=true;  //是否忽略选中部分，导出全部内容
+				const addShadow=false;  //是否添加阴影
+				const editable=true;   //是否可编辑SVG 
+				const embedImages=true;  //是否嵌入图片
+				const border="0";  //边框大小
+ 				const cropImage=true;	//是否裁剪图片
+				const currentPage=false;  //是否只导出当前页
+				const linkTarget='auto'; //链接目标
+				const grid =null;
+				const theme ='auto'; //主题
+				const exportType ='page'; //导出类型
+                const embedFonts =true;  //是否嵌入字体
+
+				var val = parseInt(scale);
+				this.lastExportSvgEditable = editable;
+
+				if (!isNaN(val) && val > 0) {
+					this.exportSvg(val / 100, transparentBackground, ignoreSelection,
+						addShadow, editable, embedImages, border, !cropImage, currentPage,
+						linkTarget, theme, exportType, embedFonts, (svg) => {
+							var drawoFile = this.getFileData();
+							const svgXml = svg;
+							const projectId = urlParams['projectId'];
+
+							//drawIOXmlPath,drawIOxml, svgXMLPath,svgXml
+							const saveUrl = window.urls.fileApp + "/saveProjectImage";
+							const data = {
+								projectId: projectId,
+								drawIOxml: drawoFile,
+								svgXml: svgXml,
+							}
+
+							mxUtils.postWithJson(saveUrl, data,
+								mxUtils.bind(this, function (result) {
+									if (result.success) {
+										this.alert("保存成功");
+										return;
+									}
+
+									this.alert("保存失败");
+								}),
+								function () {
+									this.alert("保存失败");
+								});
+
+
+						});
+				}
 	}
 };
 

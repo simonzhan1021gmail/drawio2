@@ -1972,7 +1972,51 @@ var mxUtils =
 	{
 		return new mxXmlRequest(url, params).send(onload, onerror);
 	},
-	
+		postWithJson: function (url, data, onload, onerror) {
+		var xhr = new XMLHttpRequest();
+
+		// 定义请求类型，POST 请求，以及目标 URL
+		xhr.open('POST', url, true);
+
+		// 设置请求头，指定数据类型（如果发送的是 JSON 数据）
+		xhr.setRequestHeader('Content-Type', 'application/json');
+
+		// 设置请求的回调函数，处理响应
+		xhr.onreadystatechange = function () {
+			if (xhr.readyState === 4 && xhr.status === 200) {
+				// 请求成功
+				const result = JSON.parse(xhr.responseText);
+				onload(result);
+			} else if (xhr.readyState === 4) {
+				// 请求失败
+				onerror();
+			}
+		};
+		// 发送 POST 请求，数据附加到请求体中
+		xhr.send(JSON.stringify(data));
+	},	postWithJson: function (url, data, onload, onerror) {
+		var xhr = new XMLHttpRequest();
+
+		// 定义请求类型，POST 请求，以及目标 URL
+		xhr.open('POST', url, true);
+
+		// 设置请求头，指定数据类型（如果发送的是 JSON 数据）
+		xhr.setRequestHeader('Content-Type', 'application/json');
+
+		// 设置请求的回调函数，处理响应
+		xhr.onreadystatechange = function () {
+			if (xhr.readyState === 4 && xhr.status === 200) {
+				// 请求成功
+				const result = JSON.parse(xhr.responseText);
+				onload(result);
+			} else if (xhr.readyState === 4) {
+				// 请求失败
+				onerror();
+			}
+		};
+		// 发送 POST 请求，数据附加到请求体中
+		xhr.send(JSON.stringify(data));
+	},
 	/**
 	 * Function: submit
 	 * 
